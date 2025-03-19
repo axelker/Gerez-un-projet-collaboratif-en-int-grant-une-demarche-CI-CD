@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Intstall dependecies
+      - name: Install dependencies
         run: |
           cd front
           npm install
