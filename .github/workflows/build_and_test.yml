@@ -2,23 +2,46 @@ name: Build and Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository code
+        uses: ./.github/actions/checkout-action
+
+      - name: Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "11"
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Install dependencies
+        run: |
+          cd back
+          mvn clean install
+
+      - name: Test
+        run: |
+          cd back
+          mvn clean test
+
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+        uses: ./.github/actions/checkout-action
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Install dependencies
         run: |
