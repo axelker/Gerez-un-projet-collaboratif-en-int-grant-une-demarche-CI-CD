@@ -9,6 +9,7 @@ on:
 jobs:
   frontend:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd front
-          npm install
+          npm ci
 
       - name: Build
         run: |
@@ -32,5 +33,4 @@ jobs:
       - name: Test
         run: |
           cd front
-          npm test
-
+          npm test -- --browsers=ChromeHeadless
