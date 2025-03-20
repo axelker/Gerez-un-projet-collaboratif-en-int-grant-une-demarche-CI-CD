@@ -12,7 +12,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out repository code
-        uses: ./.github/actions/checkout-action
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Set up Java JDK
         uses: actions/setup-java@v4
@@ -36,7 +37,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out repository code
-        uses: ./.github/actions/checkout-action
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
