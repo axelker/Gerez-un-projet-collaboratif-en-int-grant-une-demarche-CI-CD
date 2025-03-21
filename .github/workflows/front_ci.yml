@@ -1,0 +1,48 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  build-and-test:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: |
+          cd front
+          npm ci
+
+      - name: Build
+        run: |
+          cd front
+          npm run build
+          - name: Test
+          run: |
+            cd front
+            npm test -- --browsers=ChromeHeadless
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: karma-coverage-result
+          path: ./front/coverage/bobapp
+
+
+
+
