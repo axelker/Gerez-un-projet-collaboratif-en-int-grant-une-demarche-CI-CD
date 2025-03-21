@@ -31,10 +31,11 @@ jobs:
         run: |
           cd front
           npm run build
-          - name: Test
-          run: |
-            cd front
-            npm test -- --browsers=ChromeHeadless
+
+      - name: Test
+        run: |
+          cd front
+          npm test -- --browsers=ChromeHeadless
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
