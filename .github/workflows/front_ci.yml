@@ -9,7 +9,7 @@ on:
 jobs:
 
   build-and-test:
-    name: Build frontend
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
     
