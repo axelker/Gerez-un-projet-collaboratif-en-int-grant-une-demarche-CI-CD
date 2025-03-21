@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
-          name: Coverage result
+          name: jacoco-coverage-result
           path: ./back/target/site/jacoco
 
   frontend:
@@ -71,5 +71,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
-          name: Coverage result
+          name: karma-coverage-result
           path: ./front/coverage/bobapp
