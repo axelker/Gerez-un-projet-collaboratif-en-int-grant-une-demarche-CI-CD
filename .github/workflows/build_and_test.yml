@@ -59,3 +59,10 @@ jobs:
         run: |
           cd front
           npm test -- --browsers=ChromeHeadless
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: Coverage result
+          path: ./front/coverage/bobapp
