@@ -43,7 +43,32 @@ jobs:
         with:
           name: karma-coverage-result
           path: ./front/coverage/bobapp
+  
+  
+  code-quality-check:
+    name: Code quality check
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+        
+      - name: Build and test
+        run: |
+          cd front
+          npm ci
+          npm run build
+          npm test -- --browsers=ChromeHeadless
 
-
-
+      - name: SonarCloud Analyze code
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+            projectBaseDir: ./front
+            env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
