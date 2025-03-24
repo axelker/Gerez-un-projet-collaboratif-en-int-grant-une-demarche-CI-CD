@@ -48,6 +48,7 @@ jobs:
   code-quality-check:
     name: Code quality check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
     
@@ -74,4 +75,30 @@ jobs:
         with:
           projectBaseDir: front
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build-and-publish-docker-image:
+    name: Build And Publish docker image
+    runs-on: ubuntu-latest
+    needs: [build-and-test, code-quality-check]
+    timeout-minutes: 10
+
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Publish docker image
+      run: |
+          cd front
+          docker build -t bobapp-front .
+          docker tag bobapp-front axelker/bobapp-front:latest
+          docker push axelker/bobapp-front:latest
