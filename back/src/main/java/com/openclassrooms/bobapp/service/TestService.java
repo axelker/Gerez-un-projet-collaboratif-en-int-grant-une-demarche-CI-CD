@@ -14,5 +14,16 @@ public class TestService {
 
         return b;
     }
+
+    
+    public int getTestMethod2(int a,int b) {
+        var test = a *b;
+
+        if (test > 3 ) {
+            return a + b;
+        }
+
+        return b;
+    } 
     
 }
